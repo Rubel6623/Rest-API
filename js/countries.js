@@ -1,7 +1,12 @@
-const loadCountries=()=>{
-    fetch('https://restcountries.com/v3.1/all')
-    .then(res=>res.json())
-    .then(data=>displayCountries(data))
+const loadCountries=async()=>{
+    try{
+        const res = await fetch('https://restcountries.com/v3.1/all');
+        const data = await res.json();
+        displayCountries(data);
+    }
+    catch(error){
+        console.log(error)
+    }
 }
 const displayCountries=(countries)=>{
     const countriesContainer=document.getElementById('all-countries');
