@@ -1,15 +1,22 @@
-const loadMeals = (searchText) => {
-  const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
-  fetch(url)
-    .then(res => res.json())
-    .then(data => displayMeals(data.meals));
+let allMeals=[];
+const loadMeals = async(searchText) => {
+  try{
+    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    allMeals=data.meals;
+    displayMeals(allMeals.slice(0,6));
+  }
+  catch(error){
+    console.log(error);
+  }
 }
 
 const displayMeals = (meals) => {
   const mealsContainer = document.getElementById('meals-container');
   mealsContainer.innerHTML = '';
   meals.forEach(meal => {
-    console.log(meal);
+    // console.log(meal);
     const mealDiv = document.createElement('div');
     mealDiv.classList.add('col');
     mealDiv.innerHTML = `
@@ -67,4 +74,8 @@ const displayMealDetails = (meal) => {
   `
 }
 
-loadMeals('chicken');
+document.getElementById('show-all'),addEventListener('click', function(){
+  displayMeals(allMeals);
+})
+
+loadMeals('apple');
